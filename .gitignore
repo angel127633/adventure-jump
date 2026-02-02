@@ -1,0 +1,21 @@
+# Unity
+Library/
+Temp/
+Logs/
+obj/
+Build/
+Builds/
+Apk/
+UserSettings/
+
+# Visual Studio
+.vs/
+.utmp/
+*.csproj
+*.sln
+*.slnx
+.vsconfig
+
+# OS
+.DS_Store
+Thumbs.db
