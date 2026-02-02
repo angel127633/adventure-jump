@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: dbcd79dce5f9cd44c9f69554cfe7935a
+guid: 4f645e4dee4cdc64d90573d155b5461c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1955448553306655712
-    second: Background_0
+      213: -8386645779307496254
+    second: Rune_0
+  - first:
+      213: -4902359646237975460
+    second: Rune_1
+  - first:
+      213: 2420670467884986134
+    second: Rune_2
+  - first:
+      213: -3217309594128102768
+    second: Rune_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Background_0
+      name: Rune_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 576
-        height: 324
+        width: 13
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +137,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 024fa93b6e9dcd4e0800000000000000
-      internalID: -1955448553306655712
+      spriteID: 2ccf85b1916ac9b80800000000000000
+      internalID: -8386645779307496254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rune_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 1
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5c96c420e157fbb0800000000000000
+      internalID: -4902359646237975460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rune_2
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 1
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61f209c17f2f79120800000000000000
+      internalID: 2420670467884986134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rune_3
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 0
+        width: 11
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09ac98d58f1d953d0800000000000000
+      internalID: -3217309594128102768
       vertices: []
       indices: 
       edges: []
@@ -148,7 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Background_0: -1955448553306655712
+      Rune_0: -8386645779307496254
+      Rune_1: -4902359646237975460
+      Rune_2: 2420670467884986134
+      Rune_3: -3217309594128102768
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

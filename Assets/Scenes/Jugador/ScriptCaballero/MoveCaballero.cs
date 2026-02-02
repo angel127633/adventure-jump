@@ -39,7 +39,7 @@ public class MoveCaballero : MonoBehaviour
     private Animator animator;
     private bool puedeMoverse = true;
 
-    public int characterID = 1; // ID de Caballerito
+    public int characterID = 4; // ID de Caballerito
 
 
     void Start()
