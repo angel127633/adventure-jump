@@ -464,9 +464,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1432341085
+  m_SortingLayer: 4
+  m_SortingOrder: 6
   m_Sprite: {fileID: 4723107735738678597, guid: 69326b195cb647f4bb98ecd8bf3beded, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -577,6 +577,7 @@ MonoBehaviour:
     m_Bits: 128
   hitBoxSuelo: {fileID: 1079619942542710287}
   hitBoxAire: {fileID: 223984743391639297}
+  characterID: 1
 --- !u!114 &5685783141272957797
 MonoBehaviour:
   m_ObjectHideFlags: 0

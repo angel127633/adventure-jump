@@ -25,5 +25,14 @@ public class PlayerHitBox : MonoBehaviour
                 boss.PerderVida(dmg);
             }
         }
+
+        if (collision.CompareTag("Boxes"))
+        {
+            var boxes = collision.GetComponent<BoxesClaim>();
+            if (boxes != null)
+            {
+                boxes.CajaAbierta(1);
+            }
+        }
     }
 }

@@ -28,6 +28,12 @@ public class SpawnerCharacter : MonoBehaviour
             {
                 boss.SetJugador(character.transform);
             }
+            
+            Bat bat = FindObjectOfType<Bat>();
+            if (bat != null)
+            {
+                bat.SetJugador(character.transform);
+            }
         }
         else
         {

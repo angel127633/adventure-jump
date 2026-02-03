@@ -121122,7 +121122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   nivelActual: 1
   siguienteNivel: 2
-  escenaACargar: BossFirts
+  escenaACargar: Worlds1...Nivel2
 --- !u!61 &651140741
 BoxCollider2D:
   m_ObjectHideFlags: 0

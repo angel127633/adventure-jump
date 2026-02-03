@@ -8,6 +8,7 @@ TagManager:
   - Enemies
   - Boss
   - PlataformaMove
+  - Boxes
   layers:
   - Default
   - TransparentFX
@@ -50,6 +51,15 @@ TagManager:
     locked: 0
   - name: FrontsEffects
     uniqueID: 2585303255
+    locked: 0
+  - name: Decorations
+    uniqueID: 696812157
+    locked: 0
+  - name: Enemies
+    uniqueID: 3037088889
+    locked: 0
+  - name: Players
+    uniqueID: 2862626211
     locked: 0
   m_RenderingLayers:
   - Default
