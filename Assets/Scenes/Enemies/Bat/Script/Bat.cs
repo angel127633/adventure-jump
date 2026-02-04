@@ -16,6 +16,13 @@ public class Bat : MonoBehaviour
     public float vidaMax = 20;
     public float dmg = 3f;
 
+    [Header("Aturdimiento")]
+    public float tiempoAturdido = 1.5f;
+
+    private bool aturdido;
+    private float timerAturdido;
+    private bool impactoRegistrado;
+
     private Vector2 posicionInicial;
     private Vector2 direccionAtaque;
     private Vector2 objetivoAtaque;
@@ -34,11 +41,32 @@ public class Bat : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
+        if (jugador == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                jugador = playerObj.transform;
+        }
+
         posicionInicial = transform.position;
     }
 
     private void Update()
     {
+        if (aturdido)
+        {
+            timerAturdido -= Time.deltaTime;
+
+            if (timerAturdido <= 0f)
+            {
+                aturdido = false;
+                regresando = true;
+                animator.SetBool("isStunned", false);
+            }
+
+            return;
+        }
+
         MoverseHaciaJugador();
 
         if (!animator.GetBool("isFlying"))
@@ -111,6 +139,7 @@ public class Bat : MonoBehaviour
         if (jugador == null) return;
 
         atacando = true;
+        impactoRegistrado = false;
         timerAtaque = 0f;
 
         posicionInicial = transform.position;
@@ -124,7 +153,7 @@ public class Bat : MonoBehaviour
 
         VoltearEnDireccion(dir);
 
-        animator.SetTrigger("attack"); // opcional
+        animator.SetTrigger("isAttack"); // opcional
     }
 
     void MirarAlJugador()
@@ -190,49 +219,77 @@ public class Bat : MonoBehaviour
             regresando = false;
             timerCooldown = cooldownAtaque;
         }
+
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        // Solo hace daño durante la picada
         if (!atacando) return;
+        if (impactoRegistrado) return;
 
+        // 🧍 DAÑO AL JUGADOR
         if (other.CompareTag("Player"))
         {
-            // Ejemplo de daño al jugador
+            impactoRegistrado = true;
+
             MoveCharacter fins = other.GetComponent<MoveCharacter>();
             MoveGoku goku = other.GetComponent<MoveGoku>();
             MoveJack jake = other.GetComponent<MoveJack>();
             MoveCaballero caballero = other.GetComponent<MoveCaballero>();
 
-            if (fins != null)
-            {
-                fins.RecibirDano(dmg);
-            }
-            if (goku != null)
-            {
-                goku.RecibirDano(dmg);
-            }
-            if (jake != null)
-            {
-                jake.RecibirDano(dmg);
-            }
-            if (caballero != null)
-            {
-                caballero.RecibirDano(dmg);
-            }
+            if (fins != null) fins.RecibirDano(dmg);
+            if (goku != null) goku.RecibirDano(dmg);
+            if (jake != null) jake.RecibirDano(dmg);
+            if (caballero != null) caballero.RecibirDano(dmg);
+
+            TerminarAtaque();
         }
+
+        // 🧱 CHOQUE CON PARED / SUELO
+        if (other.CompareTag("Wall") || other.CompareTag("Suelo") || other.CompareTag("Plataformas"))
+        {
+            impactoRegistrado = true;
+
+            RecibirDano(2f);
+            Aturdir();
+        }
+    }
+
+    void Aturdir()
+    {
+        if (aturdido) return;
+
+        atacando = false;
+        regresando = false;
+        aturdido = true;
+
+        animator.SetBool("isStunned", true);
+
+        timerAturdido = tiempoAturdido;
+
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    void Morir()
+    {
+        Debug.Log("Bat derrotado");
+        Destroy(gameObject);
     }
 
     public void RecibirDano(float dmg)
     {
+        if (vidaMax <= 0f) return;
+
         vidaMax -= dmg;
+        Debug.Log("la vida que le queda es " + vidaMax);
+
+        animator.Play("Hit", 0, 0f); // 🔥 entra SIEMPRE
+        Aturdir();
 
         if (vidaMax <= 0f)
-        {
-            Debug.Log("Fue Morido");
-        }
+            Morir();
     }
+
 
     void OnDrawGizmosSelected()
     {

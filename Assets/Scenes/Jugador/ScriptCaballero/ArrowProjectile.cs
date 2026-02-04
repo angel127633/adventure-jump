@@ -100,6 +100,7 @@ public class ArrowProjectile : MonoBehaviour
         // ✅ Aplicar daño si el objeto tiene un componente con método RecibirDano
         var enemigo = hit.collider.GetComponent<Enemigo>();
         var boss = hit.collider.GetComponent<BossStatus>();
+        var bat = hit.collider.GetComponent<Bat>();
 
         if (enemigo != null)
         {
@@ -110,6 +111,10 @@ public class ArrowProjectile : MonoBehaviour
         {
             boss.PerderVida(dmg);
             boss.ParalizarBoss(stum);
+        }
+        if (bat != null)
+        {
+            bat.RecibirDano(dmg);
         }
 
         if (!esFlechaDeLluvia && lluvia != null)

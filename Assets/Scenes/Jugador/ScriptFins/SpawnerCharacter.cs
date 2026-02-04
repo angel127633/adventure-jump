@@ -28,9 +28,10 @@ public class SpawnerCharacter : MonoBehaviour
             {
                 boss.SetJugador(character.transform);
             }
-            
-            Bat bat = FindObjectOfType<Bat>();
-            if (bat != null)
+
+            Bat[] bats = FindObjectsOfType<Bat>();
+
+            foreach (Bat bat in bats)
             {
                 bat.SetJugador(character.transform);
             }
