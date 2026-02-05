@@ -201,6 +201,18 @@ public class Bat : MonoBehaviour
         transform.localScale = scale;
     }
 
+    void AjustarSobrePlataforma(Collider2D plataforma)
+    {
+        Collider2D batCol = GetComponent<Collider2D>();
+
+        // Si el Bat está por encima de la plataforma
+        if (batCol.bounds.min.y >= plataforma.bounds.center.y)
+        {
+            float nuevaY = plataforma.bounds.max.y + batCol.bounds.extents.y + 0.02f;
+            transform.position = new Vector2(transform.position.x, nuevaY);
+        }
+    }
+
     void RegresarAPosicion()
     {
         transform.position = Vector2.MoveTowards(
@@ -222,7 +234,7 @@ public class Bat : MonoBehaviour
 
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (!atacando) return;
         if (impactoRegistrado) return;
@@ -245,11 +257,12 @@ public class Bat : MonoBehaviour
             TerminarAtaque();
         }
 
-        // 🧱 CHOQUE CON PARED / SUELO
+        // CHOQUE CON PARED / SUELO / PLATAFORMAS
         if (other.CompareTag("Wall") || other.CompareTag("Suelo") || other.CompareTag("Plataformas"))
         {
             impactoRegistrado = true;
 
+            AjustarSobrePlataforma(other);
             RecibirDano(2f);
             Aturdir();
         }
@@ -257,17 +270,38 @@ public class Bat : MonoBehaviour
 
     void Aturdir()
     {
-        if (aturdido) return;
+        aturdido = true;
+        atacando = false;
+        regresando = false;
+
+        animator.SetBool("isStunned", true);
+        rb.linearVelocity = Vector2.zero;
+
+        timerAturdido = tiempoAturdido;
+    }
+
+    public void Paralizar(float duracion)
+    {
+        if (vidaMax <= 0f) return;
 
         atacando = false;
         regresando = false;
         aturdido = true;
 
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+
         animator.SetBool("isStunned", true);
 
-        timerAturdido = tiempoAturdido;
+        Invoke(nameof(QuitarParalisis), duracion);
+    }
 
-        rb.linearVelocity = Vector2.zero;
+    void QuitarParalisis()
+    {
+        rb.simulated = true;
+        aturdido = false;
+        regresando = true;
+        animator.SetBool("isStunned", false);
     }
 
     void Morir()
@@ -278,18 +312,19 @@ public class Bat : MonoBehaviour
 
     public void RecibirDano(float dmg)
     {
+        Debug.Log("🔥 BAT RecibirDano LLAMADO", this);
+
         if (vidaMax <= 0f) return;
 
         vidaMax -= dmg;
-        Debug.Log("la vida que le queda es " + vidaMax);
+        Debug.Log("vida restante: " + vidaMax);
 
-        animator.Play("Hit", 0, 0f); // 🔥 entra SIEMPRE
+        animator.Play("Hit", 0, 0f);
         Aturdir();
 
         if (vidaMax <= 0f)
             Morir();
     }
-
 
     void OnDrawGizmosSelected()
     {

@@ -15,6 +15,12 @@ public class PlayerHitBox : MonoBehaviour
             {
                 enemigo.RecibirDano(dmg);
             }
+
+            var bat = collision.GetComponent<Bat>();
+            if (bat != null)
+            {
+                bat.RecibirDano(dmg);
+            }
         }
 
         if (collision.CompareTag("Boss"))

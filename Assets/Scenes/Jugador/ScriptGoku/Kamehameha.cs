@@ -13,7 +13,9 @@ public class Kamehameha : MonoBehaviour
     private Vector2 direccion;
 
     private HashSet<Enemigo> enemigosDentro = new HashSet<Enemigo>();
+    private HashSet<Bat> batDentro = new HashSet<Bat>();
     private HashSet<BossStatus> bossDentro = new HashSet<BossStatus>();
+    private HashSet<BoxesClaim> cajaDentro = new HashSet<BoxesClaim>();
 
     public void SetDireccion(Vector2 dir)
     {
@@ -36,6 +38,13 @@ public class Kamehameha : MonoBehaviour
                 enemigosDentro.Add(enemigo);
                 StartCoroutine(DanoTickEnemigo(enemigo));
             }
+
+            Bat bat = collision.GetComponent<Bat>();
+            if (bat != null && !batDentro.Contains(bat))
+            {
+                batDentro.Add(bat);
+                StartCoroutine(DanoTickBat(bat));
+            }
         }
 
         // 🔥 BOSS
@@ -48,6 +57,16 @@ public class Kamehameha : MonoBehaviour
                 StartCoroutine(DanoTickBoss(boss));
             }
         }
+
+        if (collision.CompareTag("Boxes"))
+        {
+            BoxesClaim boxes = collision.GetComponent<BoxesClaim>();
+            if (boxes != null && !cajaDentro.Contains(boxes))
+            {
+                cajaDentro.Add(boxes);
+                StartCoroutine(DanoTickCaja(boxes));
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -57,6 +76,10 @@ public class Kamehameha : MonoBehaviour
             Enemigo enemigo = collision.GetComponent<Enemigo>();
             if (enemigo != null)
                 enemigosDentro.Remove(enemigo);
+
+            Bat bat = collision.GetComponent<Bat>();
+            if (bat != null)
+                batDentro.Remove(bat);
         }
 
         if (collision.CompareTag("Boss"))
@@ -64,6 +87,13 @@ public class Kamehameha : MonoBehaviour
             BossStatus boss = collision.GetComponent<BossStatus>();
             if (boss != null)
                 bossDentro.Remove(boss);
+        }
+
+        if (collision.CompareTag("Boxes"))
+        {
+            BoxesClaim boxes = collision.GetComponent<BoxesClaim>();
+            if (boxes != null)
+                cajaDentro.Remove(boxes);
         }
     }
 
@@ -75,12 +105,28 @@ public class Kamehameha : MonoBehaviour
             yield return new WaitForSeconds(tiempoEntreTicks);
         }
     }
+    IEnumerator DanoTickBat(Bat bat)
+    {
+        while (batDentro.Contains(bat))
+        {
+            bat.RecibirDano(danoPorTick);
+            yield return new WaitForSeconds(tiempoEntreTicks);
+        }
+    }
 
     IEnumerator DanoTickBoss(BossStatus boss)
     {
         while (bossDentro.Contains(boss))
         {
             boss.PerderVida(danoPorTick);
+            yield return new WaitForSeconds(tiempoEntreTicks);
+        }
+    }
+    IEnumerator DanoTickCaja(BoxesClaim boxes)
+    {
+        while (cajaDentro.Contains(boxes))
+        {
+            boxes.CajaAbierta(1);
             yield return new WaitForSeconds(tiempoEntreTicks);
         }
     }

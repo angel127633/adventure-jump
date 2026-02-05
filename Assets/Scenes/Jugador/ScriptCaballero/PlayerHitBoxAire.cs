@@ -15,6 +15,11 @@ public class PlayerHitBoxAire : MonoBehaviour
             {
                 enemigo.RecibirDano(dmg);
             }
+            var bat = collision.GetComponent<Bat>();
+            if (bat != null)
+            {
+                bat.RecibirDano(dmg);
+            }
         }
 
         if (collision.CompareTag("Boss"))
@@ -23,6 +28,15 @@ public class PlayerHitBoxAire : MonoBehaviour
             if (boss != null)
             {
                 boss.PerderVida(dmg);
+            }
+        }
+
+        if (collision.CompareTag("Boxes"))
+        {
+            var boxes = collision.GetComponent<BoxesClaim>();
+            if (boxes != null)
+            {
+                boxes.CajaAbierta(1);
             }
         }
     }

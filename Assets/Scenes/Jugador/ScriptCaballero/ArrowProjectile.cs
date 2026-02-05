@@ -101,6 +101,7 @@ public class ArrowProjectile : MonoBehaviour
         var enemigo = hit.collider.GetComponent<Enemigo>();
         var boss = hit.collider.GetComponent<BossStatus>();
         var bat = hit.collider.GetComponent<Bat>();
+        var boxes = hit.collider.GetComponent<BoxesClaim>();
 
         if (enemigo != null)
         {
@@ -112,9 +113,16 @@ public class ArrowProjectile : MonoBehaviour
             boss.PerderVida(dmg);
             boss.ParalizarBoss(stum);
         }
+
         if (bat != null)
         {
+            bat.Paralizar(dmg);
             bat.RecibirDano(dmg);
+        }
+
+        if (boxes != null)
+        {
+            boxes.CajaAbierta(1);
         }
 
         if (!esFlechaDeLluvia && lluvia != null)

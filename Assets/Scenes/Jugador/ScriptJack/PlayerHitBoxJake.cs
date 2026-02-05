@@ -30,6 +30,18 @@ public class PlayerHitBoxJake : MonoBehaviour
         {
             TryDamage(boss, time, () => boss.PerderVida(dmg));
         }
+
+        var boxes = collision.GetComponent<BoxesClaim>();
+        if (boxes != null)
+        {
+            TryDamage(boxes, time, () => boxes.CajaAbierta(1));
+        }
+
+        var bat = collision.GetComponent<Bat>();
+        if (bat != null)
+        {
+            TryDamage(bat, time, () => bat.RecibirDano(dmg));
+        }
     }
 
     void TryDamage(MonoBehaviour target, float time, System.Action action)

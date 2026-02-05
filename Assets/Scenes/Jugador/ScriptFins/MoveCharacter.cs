@@ -29,6 +29,9 @@ public class MoveCharacter : MonoBehaviour
     public Transform puntoInvocacion;
     public float cooldownFins = 8f;
 
+    [Header("Estado - Paralizado")]
+    public bool estaParalizado = false;
+
     private bool puedeInvocarJake = true;
 
     //variables miembros privadas
@@ -150,6 +153,27 @@ public class MoveCharacter : MonoBehaviour
         }
     }
 
+    public void Paralizar(float duracion)
+    {
+        if (estaMuerto || estaParalizado) return;
+
+        StartCoroutine(ParalizadoCoroutine(duracion));
+    }
+
+    IEnumerator ParalizadoCoroutine(float duracion)
+    {
+        estaParalizado = true;
+        puedeMoverse = false;
+
+        rigBody2D.linearVelocity = Vector2.zero;
+
+        animator.SetBool("isRunning", false);
+
+        yield return new WaitForSeconds(duracion);
+
+        estaParalizado = false;
+        puedeMoverse = true;
+    }
 
     public void InicializarBarra()
     {

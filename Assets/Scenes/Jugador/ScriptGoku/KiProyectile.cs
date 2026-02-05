@@ -63,8 +63,19 @@ public class KiProyectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemies"))
         {
-            collision.GetComponent<Enemigo>()?.RecibirDano(dmg);
-            Destroy(this.gameObject);
+            var enemies = collision.GetComponent<Enemigo>();
+            if (enemies != null)
+            {
+                enemies.RecibirDano(dmg);
+                Destroy(this.gameObject);
+            }
+
+            var bat = collision.GetComponent<Bat>();
+            if (bat != null)
+            {
+                bat.RecibirDano(dmg);
+                Destroy(this.gameObject);
+            }
         }
 
         if (collision.gameObject.CompareTag("Boss"))
@@ -76,6 +87,16 @@ public class KiProyectile : MonoBehaviour
         if (collision.gameObject.CompareTag("Wall"))
         {
             Destroy(this.gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Boxes"))
+        {
+            var boxes = collision.GetComponent<BoxesClaim>();
+            if (boxes != null)
+            {
+                boxes.CajaAbierta(1);
+                Destroy(this.gameObject);
+            }
         }
     }
 }

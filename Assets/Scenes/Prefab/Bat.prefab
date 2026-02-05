@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2106735526454476001}
   - component: {fileID: 5063455148598858}
   - component: {fileID: 4612453387936934385}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bat
-  m_TagString: Untagged
+  m_TagString: Enemies
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2078521827890659955}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.26, y: -45.63, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.5581, y: -3.73106, z: 0}
   m_LocalScale: {x: 9, y: 9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -80,9 +80,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1257878407
+  m_SortingLayer: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: -3577890631444973181, guid: 6077a2f2ccb04614ea9f4e58c41d92b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -130,13 +130,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   jugador: {fileID: 0}
   distanciaDeteccion: 8
-  velocidadPicada: 12
+  velocidadPicada: 15
   duracionPicada: 1.2
   cooldownAtaque: 2.5
   velocidadRegreso: 5
   vidaMax: 20
   dmg: 3
-  tiempoAturdido: 1.5
+  tiempoAturdido: 2
 --- !u!50 &5063455148598858
 Rigidbody2D:
   serializedVersion: 5
@@ -149,7 +149,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
@@ -198,7 +198,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0009964705, y: -0.0020803753}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -208,5 +208,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.20281813, y: 0.08191122}
   m_EdgeRadius: 0

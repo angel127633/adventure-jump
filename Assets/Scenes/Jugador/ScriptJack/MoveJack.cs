@@ -161,11 +161,11 @@ public class MoveJack : MonoBehaviour
         float random = Random.Range(0, 100); // 0–99
 
         if (random < 2)
-            return 1; // Idle común
+            return 1; // Idle raro
         else if (random < 50)
             return 2; // Idle medio
         else
-            return 3; // Idle raro
+            return 3; // Idle comun
     }
 
     public void FinIdlePausa()

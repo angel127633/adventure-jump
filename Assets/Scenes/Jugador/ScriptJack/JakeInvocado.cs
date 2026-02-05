@@ -48,6 +48,19 @@ public class JakeInvocado : MonoBehaviour
                 boss.ParalizarBoss(tiempoStun); // menos tiempo pero sí afecta
                 boss.PerderVida(dmg);
             }
+
+            BoxesClaim boxes = col.GetComponent<BoxesClaim>();
+            if(boxes != null)
+            {
+                boxes.CajaAbierta(1);
+            }
+
+            Bat bat = col.GetComponent<Bat>();
+            if (bat != null)
+            {
+                bat.Paralizar(tiempoStun);
+                bat.RecibirDano(dmg);
+            }
         }
     }
 
