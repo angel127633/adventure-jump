@@ -19,7 +19,6 @@ public class MoveGoku : MonoBehaviour
     [Header("Vida")]
     private float vidaMax = 12;
     private float vidaActual;
-
     public HeartAll heartGoku;
 
     //variables privates
@@ -498,7 +497,7 @@ public class MoveGoku : MonoBehaviour
     IEnumerator TimeOutSeleccion()
     {
 
-        yield return new WaitForSecondsRealtime(10f);
+        yield return new WaitForSecondsRealtime(2f);
 
         if (!esperandoSeleccionTP) yield break;
 
@@ -543,6 +542,7 @@ public class MoveGoku : MonoBehaviour
     {
         rigBody2D.gravityScale = gravedadOriginal;
     }
+
     IEnumerator EsperarFinDelAtaque(GameObject kame)
     {
         // Espera hasta que el prefab desaparezca
@@ -628,25 +628,49 @@ public class MoveGoku : MonoBehaviour
     {
         estaParalizado = true;
 
-        // 🔒 Bloquear estados
+        // 🔒 bloquear control
         puedeMoverse = false;
-        invulnerable = false;      // ⚠️ recibe daño igual
-        transformado = false;
 
-        // 🧊 Congelar animaciones
-        animator.speed = 0f;
+        // ❌ cancelar TODO
+        CancelarEstados();
 
-        // 🛑 Detener físicas
+        // 🛑 frenar físicas
         rigBody2D.linearVelocity = Vector2.zero;
         rigBody2D.angularVelocity = 0f;
 
         yield return new WaitForSeconds(duracion);
 
-        // 🔓 Restaurar
-        animator.speed = velocidadAnimOriginal;
+        // 🔓 restaurar control
         puedeMoverse = true;
-
         estaParalizado = false;
+    }
+
+    void CancelarEstados()
+    {
+        // cortar poderes y estados
+        invulnerable = false;
+        transformado = false;
+        esperandoSeleccionTP = false;
+        seleccionRealizada = false;
+
+        // restaurar gravedad por seguridad
+        rigBody2D.gravityScale = gravedadOriginal;
+
+        // detener time stop si estaba activo
+        if (TimeStopManager.Instance != null &&
+            TimeStopManager.Instance.tiempoDetenido)
+        {
+            TimeStopManager.Instance.ReanudarTiempo();
+        }
+
+        // limpiar animaciones
+        animator.ResetTrigger("Transformation");
+        animator.SetBool("isKamehameha", false);
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isIdlePausa", false);
+
+        // forzar idle limpio
+        animator.Play("Idle", 0, 0f);
     }
 
     void OnDrawGizmosSelected()

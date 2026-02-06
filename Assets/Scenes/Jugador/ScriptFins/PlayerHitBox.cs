@@ -21,6 +21,12 @@ public class PlayerHitBox : MonoBehaviour
             {
                 bat.RecibirDano(dmg);
             }
+            
+            var caballero_enemies = collision.GetComponent<CaballeroEnemyIA>();
+            if (caballero_enemies != null)
+            {
+                caballero_enemies.RecibirDano(dmg);
+            }
         }
 
         if (collision.CompareTag("Boss"))

@@ -79,6 +79,12 @@ public class MoveJack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (estaParalizado || estaMuerto)
+        {
+            rigBody2D.linearVelocity = Vector2.zero;
+            return;
+        }
+
         if (enSpecial)
         {
             ProcesarMoveSpecial();
@@ -429,25 +435,42 @@ public class MoveJack : MonoBehaviour
     {
         estaParalizado = true;
 
-        // 🔒 Bloquear lógica
+        // 🔒 bloquear lógica
         puedeMoverse = false;
-        isAttack = false;
-        enSpecial = false;
 
-        // 🧊 CONGELAR ANIMACIONES
-        animator.speed = 0f;
+        // ❌ cancelar TODO
+        CancelarEstados();
 
-        // 🛑 FRENAR FÍSICAS
+        // 🛑 frenar físicas
         rigBody2D.linearVelocity = Vector2.zero;
         rigBody2D.angularVelocity = 0f;
 
         yield return new WaitForSeconds(duracion);
 
-        // 🔓 DESCONGELAR
-        animator.speed = velocidadAnimOriginal;
+        // 🔓 restaurar control
         puedeMoverse = true;
-
         estaParalizado = false;
+    }
+
+    void CancelarEstados()
+    {
+        // cortar ataques
+        isAttack = false;
+        enSpecial = false;
+        invulnerable = false;
+
+        // apagar hitboxes
+        DisableHitbox();
+
+        // resetear animator
+        animator.ResetTrigger("Attack");
+        animator.ResetTrigger("Special");
+        animator.SetBool("isRunning", false);
+        animator.SetBool("IdlePausa", false);
+        animator.SetInteger("IdleIndex", 0);
+
+        // forzar idle
+        animator.Play("Idle", 0, 0f);
     }
 
     public void Morir()

@@ -97384,6 +97384,68 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1472075465
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2004189497}
+    m_Modifications:
+    - target: {fileID: 2078521827890659955, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_Name
+      value: Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -47.14423
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -84.74235
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+--- !u!4 &1472075466 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7015648680872531027, guid: 2db1014acba462748ba12619fe9e5221, type: 3}
+  m_PrefabInstance: {fileID: 1472075465}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1483887931
 GameObject:
   m_ObjectHideFlags: 0
@@ -103477,7 +103539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7edbd7a930d350846b9564db8bfad90b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  dmg: 7
+  dmg: 5
 --- !u!61 &1672767429
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -104576,6 +104638,7 @@ Transform:
   - {fileID: 28243004}
   - {fileID: 1593782592}
   - {fileID: 1516844850}
+  - {fileID: 1472075466}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2006923337
@@ -104766,9 +104829,13 @@ MonoBehaviour:
   jugador: {fileID: 0}
   distanciaDeteccion: 8
   distanciaAtaque: 1.2
-  velocidad: 7
+  velocidad: 5
   fuerzaSalto: 7
   cooldownEntreAtaques: 1.2
+  distanciaRetroceso: 4
+  velocidadRetroceso: 6
+  congelado: 0
+  vidaMax: 100
   hitboxSuelo: {fileID: 2141373945}
   hitboxAire: {fileID: 1672767427}
   puntoFlecha: {fileID: 190939923}
@@ -104853,7 +104920,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
@@ -105216,7 +105283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b82aa9b582f27d41bdb6179837a4752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  dmg: 7
+  dmg: 5
 --- !u!61 &2141373947
 BoxCollider2D:
   m_ObjectHideFlags: 0

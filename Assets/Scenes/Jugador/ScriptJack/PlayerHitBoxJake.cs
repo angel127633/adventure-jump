@@ -42,6 +42,12 @@ public class PlayerHitBoxJake : MonoBehaviour
         {
             TryDamage(bat, time, () => bat.RecibirDano(dmg));
         }
+        
+        var caballero_enemies = collision.GetComponent<CaballeroEnemyIA>();
+        if (caballero_enemies != null)
+        {
+            TryDamage(caballero_enemies, time, () => caballero_enemies.RecibirDano(dmg));
+        }
     }
 
     void TryDamage(MonoBehaviour target, float time, System.Action action)

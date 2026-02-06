@@ -76,6 +76,13 @@ public class KiProyectile : MonoBehaviour
                 bat.RecibirDano(dmg);
                 Destroy(this.gameObject);
             }
+
+            var caballero_enemies = collision.GetComponent<CaballeroEnemyIA>();
+            if (caballero_enemies != null)
+            {
+                caballero_enemies.RecibirDano(dmg);
+                Destroy(this.gameObject);
+            }
         }
 
         if (collision.gameObject.CompareTag("Boss"))

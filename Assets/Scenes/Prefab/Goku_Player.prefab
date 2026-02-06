@@ -284,7 +284,7 @@ MonoBehaviour:
   heartGoku: {fileID: 0}
   salto: 10
   saltoMax: 2
-  cooldownGoku: 60
+  cooldownGoku: 45
   invulnerable: 0
   heartGokuIniciado: 0
   teleportPointPrefab: {fileID: 0}

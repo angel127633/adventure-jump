@@ -179,5 +179,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlechaCaballero
   velocidad: 12
-  dmg: 5
+  dmg: 3
   stun: 3
+  tiempoClavada: 2.5

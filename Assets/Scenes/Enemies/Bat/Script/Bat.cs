@@ -19,6 +19,13 @@ public class Bat : MonoBehaviour
     [Header("Aturdimiento")]
     public float tiempoAturdido = 1.5f;
 
+    [Header("Time Stop")]
+    private bool congelado = false;
+    private bool estabaCongelado = false;
+
+    private Vector2 velocidadGuardada;
+    private float animatorSpeedGuardado;
+
     private bool aturdido;
     private float timerAturdido;
     private bool impactoRegistrado;
@@ -53,6 +60,23 @@ public class Bat : MonoBehaviour
 
     private void Update()
     {
+        bool tiempoDetenido = TimeStopManager.Instance.tiempoDetenido;
+
+        if (tiempoDetenido && !estabaCongelado)
+        {
+            Congelar();
+            estabaCongelado = true;
+            return;
+        }
+
+        if (!tiempoDetenido && estabaCongelado)
+        {
+            Descongelar();
+            estabaCongelado = false;
+        }
+
+        if (congelado) return;
+
         if (aturdido)
         {
             timerAturdido -= Time.deltaTime;
@@ -324,6 +348,29 @@ public class Bat : MonoBehaviour
 
         if (vidaMax <= 0f)
             Morir();
+    }
+
+    void Congelar()
+    {
+        congelado = true;
+
+        // Guardamos estado
+        velocidadGuardada = rb.linearVelocity;
+        animatorSpeedGuardado = animator.speed;
+
+        // Congelamos todo
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+        animator.speed = 0f;
+    }
+
+    void Descongelar()
+    {
+        congelado = false;
+
+        rb.simulated = true;
+        rb.linearVelocity = velocidadGuardada;
+        animator.speed = animatorSpeedGuardado;
     }
 
     void OnDrawGizmosSelected()

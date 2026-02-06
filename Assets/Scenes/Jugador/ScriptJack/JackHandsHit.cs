@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class JackHandsHit : MonoBehaviour
 {
@@ -13,12 +13,16 @@ public class JackHandsHit : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemies"))
         {
+            Debug.Log("🔥 OnTriggerEnter2D detectó algo: " + collision.name);
+
             Enemigo enemies = collision.gameObject.GetComponent<Enemigo>();
             Bat bat = collision.gameObject.GetComponent<Bat>();
+            CaballeroEnemyIA caballeroEnemyIA = collision.gameObject.GetComponent<CaballeroEnemyIA>();
 
-            if (enemies == null && bat == null) return;
+            if (enemies == null && bat == null && caballeroEnemyIA == null)
+                return;
 
-            if(enemies != null)
+            if (enemies != null)
             {
                 if (tipomano == Tipomano.Paraliza)
                 {
@@ -39,6 +43,18 @@ public class JackHandsHit : MonoBehaviour
                 else if (tipomano == Tipomano.Lanza)
                 {
                     bat.RecibirDano(1.5f);
+                }
+            }
+          
+            if(caballeroEnemyIA != null)
+            {
+                if (tipomano == Tipomano.Paraliza)
+                {
+                    caballeroEnemyIA.Paralizar(tiempoStun);
+                }
+                else if (tipomano == Tipomano.Lanza)
+                {
+                    caballeroEnemyIA.Lanzar(transform.position,fuerzaLanzar,dmg);
                 }
             }
 

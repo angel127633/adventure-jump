@@ -21,6 +21,15 @@ public class CaballeroEnemyIA : MonoBehaviour
     public float distanciaRetroceso = 4f;
     public float velocidadRetroceso = 7f;
 
+    [Header("Time Stop")]
+    public bool congelado = false;
+
+    [Header("Estadisticas")]
+    public float vidaMax = 100f;
+
+    private Vector2 velocidadGuardada;
+    private float gravedadGuardada;
+
     public GameObject hitboxSuelo;
     public GameObject hitboxAire;
     public Transform puntoFlecha;
@@ -30,11 +39,13 @@ public class CaballeroEnemyIA : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    Coroutine rutinaActual;
 
     private bool atacando;
     private bool puedeAtacar = true;
     private bool esperandoCaida;
     private Vector3 escalaOriginal;
+    private bool estabaCongelado = false;
 
     void Awake()
     {
@@ -48,6 +59,23 @@ public class CaballeroEnemyIA : MonoBehaviour
 
     void Update()
     {
+        bool tiempoDetenido = TimeStopManager.Instance.tiempoDetenido;
+
+        if (tiempoDetenido && !estabaCongelado)
+        {
+            Congelar();
+            estabaCongelado = true;
+            return;
+        }
+
+        if (!tiempoDetenido && estabaCongelado)
+        {
+            Descongelar();
+            estabaCongelado = false;
+        }
+
+        if (congelado) return;
+
         if (esperandoCaida && rb.linearVelocity.y <= 0)
         {
             esperandoCaida = false;
@@ -218,6 +246,139 @@ public class CaballeroEnemyIA : MonoBehaviour
 
         // Ejecuta animación de flecha
         animator.SetTrigger("AttackFlecha");
+    }
+
+    public void Congelar()
+    {
+        if (congelado) return;
+
+        congelado = true;
+
+        // Guarda estado
+        velocidadGuardada = rb.linearVelocity;
+        gravedadGuardada = rb.gravityScale;
+
+        // Congela física
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0f;
+        rb.simulated = false;
+
+        // Congela animaciones
+        animator.speed = 0f;
+
+        // Cancela ataques
+        StopAllCoroutines();
+        atacando = false;
+        esperandoCaida = false;
+    }
+
+    public void RecibirDano(float dano)
+    {
+        vidaMax -= dano;
+
+        if (vidaMax < 0)
+        {
+            vidaMax = 0;
+        }
+
+        Debug.Log("caballero recibio dano" + vidaMax);
+
+        if (vidaMax <= 0)
+        {
+            Morir();
+        }
+    }
+
+    public void Paralizar(float duracion)
+    {
+        Debug.Log("Se paralizo al enemigo");
+        if (congelado) return;   // ⛔ no se mezcla con Time Stop
+        Debug.Log("Se paralizo al enemigo");
+        if (vidaMax <= 0) return;
+        Debug.Log("Se paralizo al enemigo");
+        StopAllCoroutines();
+
+        Debug.Log("Se paralizo al enemigo");
+        atacando = false;
+        esperandoCaida = false;
+        puedeAtacar = false;
+
+        rb.linearVelocity = Vector2.zero;
+
+        animator.speed = 0f;
+
+        StartCoroutine(ParalisisRutina(duracion));
+    }
+
+    IEnumerator ParalisisRutina(float duracion)
+    {
+        yield return new WaitForSeconds(duracion);
+
+        VolverARutinaNormal();
+    }
+
+    public void Lanzar(Vector2 origen, float fuerza, float dano)
+    {
+        if (congelado || vidaMax <= 0) return;
+
+        Debug.Log("💥 Lanzamiento aplicado");
+
+        if (rutinaActual != null)
+            StopCoroutine(rutinaActual);
+
+        atacando = false;
+        esperandoCaida = false;
+        puedeAtacar = false;
+
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = true;
+
+        Vector2 direccion = ((Vector2)transform.position - origen).normalized;
+        rb.AddForce(direccion * fuerza, ForceMode2D.Impulse);
+
+        RecibirDano(dano);
+        animator.SetTrigger("Hit");
+
+        rutinaActual = StartCoroutine(RecuperarTrasLanzamiento());
+    }
+
+    IEnumerator RecuperarTrasLanzamiento()
+    {
+        yield return new WaitForSeconds(0.6f);
+        VolverARutinaNormal();
+    }
+
+    void VolverARutinaNormal()
+    {
+        atacando = false;
+        esperandoCaida = false;
+        puedeAtacar = true;
+
+        animator.speed = 1f;
+        rb.linearVelocity = Vector2.zero;
+
+    }
+
+    public void Morir()
+    {
+        Debug.Log("Caballero murió — animación activada");
+
+        rb.linearVelocity = Vector2.zero;
+
+        animator.SetTrigger("deatch");
+    }
+
+    public void Descongelar()
+    {
+        congelado = false;
+
+        // Restaura física
+        rb.simulated = true;
+        rb.gravityScale = gravedadGuardada;
+        rb.linearVelocity = velocidadGuardada;
+
+        // Restaura animaciones
+        animator.speed = 1f;
     }
 
     void OnDrawGizmosSelected()

@@ -14,6 +14,7 @@ public class Kamehameha : MonoBehaviour
 
     private HashSet<Enemigo> enemigosDentro = new HashSet<Enemigo>();
     private HashSet<Bat> batDentro = new HashSet<Bat>();
+    private HashSet<CaballeroEnemyIA> caballeroDentro = new HashSet<CaballeroEnemyIA>();
     private HashSet<BossStatus> bossDentro = new HashSet<BossStatus>();
     private HashSet<BoxesClaim> cajaDentro = new HashSet<BoxesClaim>();
 
@@ -44,6 +45,13 @@ public class Kamehameha : MonoBehaviour
             {
                 batDentro.Add(bat);
                 StartCoroutine(DanoTickBat(bat));
+            }
+            
+            CaballeroEnemyIA caballeroEnemyIA = collision.GetComponent<CaballeroEnemyIA>();
+            if (caballeroEnemyIA != null && !caballeroDentro.Contains(caballeroEnemyIA))
+            {
+                caballeroDentro.Add(caballeroEnemyIA);
+                StartCoroutine(DanoTickCaballero(caballeroEnemyIA));
             }
         }
 
@@ -80,6 +88,10 @@ public class Kamehameha : MonoBehaviour
             Bat bat = collision.GetComponent<Bat>();
             if (bat != null)
                 batDentro.Remove(bat);
+            
+            CaballeroEnemyIA caballeroEnemyIA = collision.GetComponent<CaballeroEnemyIA>();
+            if (caballeroEnemyIA != null)
+                caballeroDentro.Remove(caballeroEnemyIA);
         }
 
         if (collision.CompareTag("Boss"))
@@ -110,6 +122,15 @@ public class Kamehameha : MonoBehaviour
         while (batDentro.Contains(bat))
         {
             bat.RecibirDano(danoPorTick);
+            yield return new WaitForSeconds(tiempoEntreTicks);
+        }
+    }
+
+    IEnumerator DanoTickCaballero(CaballeroEnemyIA caballeroEnemyIA)
+    {
+        while (caballeroDentro.Contains(caballeroEnemyIA))
+        {
+            caballeroEnemyIA.RecibirDano(danoPorTick);
             yield return new WaitForSeconds(tiempoEntreTicks);
         }
     }
