@@ -35,6 +35,13 @@ public class SpawnerCharacter : MonoBehaviour
             {
                 bat.SetJugador(character.transform);
             }
+
+            CaballeroEnemyIA caballeroIA = FindObjectOfType<CaballeroEnemyIA>();
+
+            if (caballeroIA != null)
+            {
+                caballeroIA.SetJugador(character.transform);
+            }
         }
         else
         {

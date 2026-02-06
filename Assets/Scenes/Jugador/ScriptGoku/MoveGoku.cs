@@ -46,6 +46,8 @@ public class MoveGoku : MonoBehaviour
     private bool puedeMoverse = true;
     private bool transformado = false;
     public bool heartGokuIniciado = false;
+    private bool estaParalizado = false;
+    private float velocidadAnimOriginal;
     PlataformsMove plataformaActual;
 
     [Header("En el aire")]
@@ -78,6 +80,8 @@ public class MoveGoku : MonoBehaviour
         boxCollider2D = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
 
+        velocidadAnimOriginal = animator.speed;
+
         // Si ya es tuyo, NO aparece
         if (!CharacterUnlocker.EstaDesbloqueado(characterID))
         {
@@ -93,6 +97,12 @@ public class MoveGoku : MonoBehaviour
         TimeStopManager.Instance.tiempoDetenido)
         {
             return; // bloquear TODO input
+        }
+
+        if (estaParalizado)
+        {
+            rigBody2D.linearVelocity = Vector2.zero;
+            return;
         }
 
         ProcesarMove();
@@ -605,6 +615,38 @@ public class MoveGoku : MonoBehaviour
         // frenar al salir
         rigBody2D.linearVelocity = Vector2.zero;
 
+    }
+
+    public void Paralizar(float duracion)
+    {
+        if (estaParalizado || vidaActual <= 0) return;
+
+        StartCoroutine(ParalizarCoroutine(duracion));
+    }
+
+    IEnumerator ParalizarCoroutine(float duracion)
+    {
+        estaParalizado = true;
+
+        // 🔒 Bloquear estados
+        puedeMoverse = false;
+        invulnerable = false;      // ⚠️ recibe daño igual
+        transformado = false;
+
+        // 🧊 Congelar animaciones
+        animator.speed = 0f;
+
+        // 🛑 Detener físicas
+        rigBody2D.linearVelocity = Vector2.zero;
+        rigBody2D.angularVelocity = 0f;
+
+        yield return new WaitForSeconds(duracion);
+
+        // 🔓 Restaurar
+        animator.speed = velocidadAnimOriginal;
+        puedeMoverse = true;
+
+        estaParalizado = false;
     }
 
     void OnDrawGizmosSelected()

@@ -29,6 +29,8 @@ public class MoveJack : MonoBehaviour
     private bool estaEnElSuelo;
     private Animator animator;
     private bool puedeMoverse = true;
+    private bool estaParalizado = false;
+    private float velocidadAnimOriginal;
     public bool estaMuerto { private set; get; } = false;
 
     [Header("Ataque Especial - Jake")]
@@ -61,6 +63,8 @@ public class MoveJack : MonoBehaviour
         rigBody2D = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+
+        velocidadAnimOriginal = animator.speed;
 
         // Si ya es tuyo, NO aparece
         if (!CharacterUnlocker.EstaDesbloqueado(characterID))
@@ -412,6 +416,38 @@ public class MoveJack : MonoBehaviour
         }
 
         puedeMoverse = true;
+    }
+
+    public void Paralizar(float duracion)
+    {
+        if (estaMuerto || estaParalizado) return;
+
+        StartCoroutine(ParalizarCoroutine(duracion));
+    }
+
+    IEnumerator ParalizarCoroutine(float duracion)
+    {
+        estaParalizado = true;
+
+        // 🔒 Bloquear lógica
+        puedeMoverse = false;
+        isAttack = false;
+        enSpecial = false;
+
+        // 🧊 CONGELAR ANIMACIONES
+        animator.speed = 0f;
+
+        // 🛑 FRENAR FÍSICAS
+        rigBody2D.linearVelocity = Vector2.zero;
+        rigBody2D.angularVelocity = 0f;
+
+        yield return new WaitForSeconds(duracion);
+
+        // 🔓 DESCONGELAR
+        animator.speed = velocidadAnimOriginal;
+        puedeMoverse = true;
+
+        estaParalizado = false;
     }
 
     public void Morir()
