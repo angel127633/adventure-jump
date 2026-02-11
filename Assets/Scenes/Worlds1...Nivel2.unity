@@ -104830,7 +104830,7 @@ MonoBehaviour:
   distanciaDeteccion: 8
   distanciaAtaque: 1.2
   velocidad: 5
-  fuerzaSalto: 7
+  fuerzaSalto: 30
   cooldownEntreAtaques: 1.2
   distanciaRetroceso: 4
   velocidadRetroceso: 6

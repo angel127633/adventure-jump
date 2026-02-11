@@ -261,7 +261,7 @@ public class CaballeroEnemyIA : MonoBehaviour
         // Congela física
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0f;
-        rb.simulated = false;
+        rb.isKinematic = false;
 
         // Congela animaciones
         animator.speed = 0f;
@@ -331,7 +331,7 @@ public class CaballeroEnemyIA : MonoBehaviour
         puedeAtacar = false;
 
         rb.linearVelocity = Vector2.zero;
-        rb.simulated = true;
+        rb.isKinematic = true;
 
         Vector2 direccion = ((Vector2)transform.position - origen).normalized;
         rb.AddForce(direccion * fuerza, ForceMode2D.Impulse);
@@ -373,7 +373,7 @@ public class CaballeroEnemyIA : MonoBehaviour
         congelado = false;
 
         // Restaura física
-        rb.simulated = true;
+        rb.isKinematic = true;
         rb.gravityScale = gravedadGuardada;
         rb.linearVelocity = velocidadGuardada;
 
